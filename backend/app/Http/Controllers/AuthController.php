@@ -48,4 +48,13 @@ class AuthController extends Controller
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }
+
+    public function refresh()
+    {
+        try {
+            return $this->respondWithToken(JWTAuth::parseToken()->refresh());
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'Could not refresh token'], 401);
+        }
+    }
 }
