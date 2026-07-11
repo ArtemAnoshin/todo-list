@@ -10,7 +10,9 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     nodejs \
-    npm
+    npm \
+    sqlite3 \
+    libsqlite3-dev
 
 # Очистка кэша
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
