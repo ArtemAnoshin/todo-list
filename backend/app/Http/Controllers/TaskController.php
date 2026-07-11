@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserRoleEnum;
 use App\Http\Requests\IndexTasksRequest;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
@@ -20,7 +21,7 @@ class TaskController extends Controller
         $user = auth('api')->user();
 
         // Проверяем, является ли пользователь админом
-        if (Auth::user()->role !== 'admin') {
+        if ($user->role !== UserRoleEnum::ADMIN->value) {
             // Если не админ - показываем только задачи текущего пользователя
             $query->where('user_id', $user->id);
         }
