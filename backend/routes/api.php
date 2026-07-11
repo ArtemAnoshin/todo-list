@@ -8,9 +8,6 @@ Route::group([
     'prefix' => 'auth'
 ], function () {
     Route::post('login', [AuthController::class, 'login']);
-
-    // Маршруты для задач
-    Route::apiResource('tasks', TaskController::class);
 });
 
 Route::group([
@@ -25,4 +22,7 @@ Route::group([
     'middleware' => ['auth:api'],
 ], function () {
     Route::get('user', [AuthController::class, 'me']);
+
+    // Маршруты для задач
+    Route::apiResource('tasks', TaskController::class);
 });

@@ -17,6 +17,13 @@ class TaskController extends Controller
     public function index(IndexTasksRequest $request): JsonResponse
     {
         $query = Task::query();
+        $user = auth('api')->user();
+
+        // Проверяем, является ли пользователь админом
+        if (Auth::user()->role !== 'admin') {
+            // Если не админ - показываем только задачи текущего пользователя
+            $query->where('user_id', $user->id);
+        }
 
         // Фильтрация по статусу
         if ($request->filled('status')) {
