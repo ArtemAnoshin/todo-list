@@ -1,12 +1,16 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TaskController;
 
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
 ], function () {
     Route::post('login', [AuthController::class, 'login']);
+
+    // Маршруты для задач
+    Route::apiResource('tasks', TaskController::class);
 });
 
 Route::group([
