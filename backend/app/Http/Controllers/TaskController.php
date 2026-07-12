@@ -90,8 +90,10 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task): JsonResponse
     {
+        $user = auth('api')->user();
+
         // Проверяем, что задача принадлежит пользователю или пользователь - админ
-        if ($task->user_id !== Auth::id() && Auth::user()->role !== 'admin') {
+        if ($task->user_id !== $user->id && $user->role !== UserRoleEnum::ADMIN->value) {
             return response()->json(['error' => 'Forbidden'], 403);
         }
 
@@ -105,8 +107,10 @@ class TaskController extends Controller
      */
     public function destroy(Task $task): JsonResponse
     {
+        $user = auth('api')->user();
+
         // Проверяем, что задача принадлежит пользователю или пользователь - админ
-        if ($task->user_id !== Auth::id() && Auth::user()->role !== 'admin') {
+        if ($task->user_id !== $user->id && $user->role !== UserRoleEnum::ADMIN->value) {
             return response()->json(['error' => 'Forbidden'], 403);
         }
 
