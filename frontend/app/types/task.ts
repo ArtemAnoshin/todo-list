@@ -35,9 +35,13 @@ export interface TaskFilters {
 
 export interface CreateTaskRequest {
   title: string
-  description: string
+  id: number | null
+  user_id: number | null
+  description: string | null
   due_date: string | null
   status: TaskStatus | null
+  created_at: string | null
+  updated_at: string | null
 }
 
 export interface UpdateTaskRequest extends CreateTaskRequest {}

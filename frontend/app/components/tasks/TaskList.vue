@@ -43,11 +43,12 @@ defineProps<{
       </div>
 
       <div class="mt-5 flex justify-end gap-2">
-        <button
-          class="rounded-lg border border-blue-500 px-4 py-2 text-sm font-medium text-blue-600 transition hover:bg-blue-50 cursor-pointer"
+        <NuxtLink
+          :to="`/tasks/${task.id}`"
+          class="rounded-lg border border-blue-500 px-4 py-2 text-sm font-medium text-blue-600 transition hover:bg-blue-50"
         >
           ✏️ Редактировать
-        </button>
+        </NuxtLink>
 
         <button
           class="rounded-lg border border-red-500 px-4 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50 cursor-pointer"

@@ -12,6 +12,12 @@ export const taskService = {
     })
   },
 
+  async show(id: number): Promise<Task> {
+    const api = useApi()
+
+    return await api(`/tasks/${id}`)
+  },
+
   async create(data: CreateTaskRequest): Promise<Task> {
     const api = useApi()
 

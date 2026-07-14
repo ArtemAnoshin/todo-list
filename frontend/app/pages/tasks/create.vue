@@ -9,7 +9,7 @@ definePageMeta({
 const loading = ref(false)
 const errors = ref<Record<string, string[]>>({})
 
-async function onSubmit(data: CreateTaskRequest) {
+async function createTask(data: CreateTaskRequest) {
   loading.value = true
   errors.value = {}
 
@@ -28,7 +28,7 @@ async function onSubmit(data: CreateTaskRequest) {
 </script>
 
 <template>
-  <div class="mx-auto max-w-2xl">
+  <div class="mx-auto max-w-2xl pt-6">
     <h1 class="mb-6 text-2xl font-bold">
       Новая задача
     </h1>
@@ -36,7 +36,7 @@ async function onSubmit(data: CreateTaskRequest) {
     <TasksTaskForm
       :loading="loading"
       :errors="errors"
-      @submit="onSubmit"
+      @submit="createTask"
     />
   </div>
 </template>

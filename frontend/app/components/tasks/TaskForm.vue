@@ -5,6 +5,7 @@ import type { CreateTaskRequest } from '~/types/task'
 const props = defineProps<{
   loading?: boolean
   errors?: Record<string, string[]>
+  initialValues?: Partial<CreateTaskRequest>
 }>()
 
 const localError = ref('')
@@ -14,10 +15,14 @@ const emit = defineEmits<{
 }>()
 
 const form = reactive<CreateTaskRequest>({
-  title: '',
-  description: '',
-  due_date: null,
-  status: TaskStatus.PENDING
+  title: props.initialValues?.title ?? '',
+  description: props.initialValues?.description ?? '',
+  due_date: props.initialValues?.due_date ?? null,
+  status: props.initialValues?.status ?? TaskStatus.PENDING,
+  id: props.initialValues?.id ?? null,
+  user_id: props.initialValues?.user_id ?? null,
+  updated_at: props.initialValues?.updated_at ?? null,
+  created_at: props.initialValues?.created_at ?? null
 })
 
 function onSubmit() {
@@ -30,6 +35,27 @@ function onSubmit() {
 
   emit('submit', { ...form })
 }
+
+watch(
+  () => props.initialValues,
+  (values) => {
+    if (!values) return
+
+    form.title = values.title ?? ''
+    form.description = values.description ?? ''
+    form.status = values.status ?? TaskStatus.PENDING
+    form.user_id = values.user_id ?? null
+    form.updated_at = values.updated_at ?? null
+    form.created_at = values.created_at ?? null
+
+    form.due_date = values.due_date
+      ? values.due_date.slice(0, 10)
+      : null
+  },
+  {
+    immediate: true
+  }
+)
 </script>
 
 <template>
@@ -130,7 +156,7 @@ function onSubmit() {
           :disabled="loading"
           class="rounded-lg bg-blue-600 px-6 py-2 font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
         >
-          {{ loading ? 'Создание...' : 'Создать задачу' }}
+          {{ loading ? 'Отправка...' : 'Отправить' }}
         </button>
       </div>
     </div>
