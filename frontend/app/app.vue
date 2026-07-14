@@ -50,7 +50,9 @@ useSeoMeta({
     </UHeader>
 
     <UMain>
-      <NuxtPage />
+      <div class="w-full max-w-(--ui-container) mx-auto">
+        <NuxtPage />
+      </div>
     </UMain>
 
     <USeparator icon="i-simple-icons-nuxtdotjs" />
