@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { taskService } from '~/services/tasks'
-import type { TaskFilters, CreateTaskRequest } from '~/types/task'
-import { TaskStatusOptions } from '~/types/task-status'
+import type { TaskFilters } from '~/types/task'
 
 definePageMeta({
   middleware: 'auth'
@@ -10,8 +9,6 @@ definePageMeta({
 const route = useRoute()
 const router = useRouter()
 
-const creating = ref(false)
-const validationErrors = ref<Record<string, string[]>>({})
 const successMessage = ref('')
 
 const filters = reactive<TaskFilters>({
@@ -64,59 +61,32 @@ async function applyFilters() {
 
   refresh()
 }
-
-async function createTask(data: CreateTaskRequest) {
-  creating.value = true
-  validationErrors.value = {}
-
-  try {
-    await taskService.create(data)
-    await refresh()
-    successMessage.value = 'Задача успешно создана!'
-  } catch (error: any) {
-    if (error.status === 422) {
-      validationErrors.value = error.data.errors ?? {}
-      return
-    }
-
-    alert('Не удалось создать задачу')
-  } finally {
-    creating.value = false
-  }
-}
 </script>
 
 <template>
-  <div>
+  <div class="pt-6">
     <p v-if="successMessage">
       {{ successMessage }}
     </p>
 
-    <TasksForm
-      @save="createTask"
-    />
+    <div class="mb-6 flex items-center justify-between">
+      <h1 class="text-2xl font-bold">
+        Мои задачи
+      </h1>
 
-    <h1>Задачи</h1>
-
-    <input
-      v-model="filters.search"
-      type="text"
-      placeholder="Поиск по названию..."
-    >
-
-    <select v-model="filters.status">
-      <option
-        v-for="option in TaskStatusOptions"
-        :key="option.value"
-        :value="option.value"
+      <NuxtLink
+        to="/tasks/create"
+        class="rounded-lg bg-blue-600 px-4 py-2 font-medium text-white transition hover:bg-blue-700"
       >
-        {{ option.label }}
-      </option>
-    </select>
+        + Добавить задачу
+      </NuxtLink>
+    </div>
 
-    <button @click="applyFilters()">
-      Найти
-    </button>
+    <TasksTaskFilters
+      v-model:search="filters.search"
+      v-model:status="filters.status"
+      @submit="applyFilters"
+    />
 
     <div v-if="pending">
       Загрузка...

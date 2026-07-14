@@ -21,12 +21,20 @@ export const taskService = {
     })
   },
 
-  async create(data: CreateTaskRequest): Promise<Task> {
+  async update(id: number, data: CreateTaskRequest): Promise<Task> {
     const api = useApi()
 
-    return await api('/tasks', {
-      method: 'POST',
-      body: data,
+    return await api(`/tasks/${id}`, {
+      method: 'PUT',
+      body: data
+    })
+  },
+
+  async destroy(id: number): Promise<void> {
+    const api = useApi()
+
+    await api(`/tasks/${id}`, {
+      method: 'DELETE'
     })
   }
 }
