@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { taskService } from '~/services/tasks'
-import type { TaskFilters } from '~/types/task'
+import type { TaskFilters, CreateTaskRequest } from '~/types/task'
 import { TaskStatusOptions } from '~/types/task-status'
 
 definePageMeta({
@@ -9,6 +9,10 @@ definePageMeta({
 
 const route = useRoute()
 const router = useRouter()
+
+const creating = ref(false)
+const validationErrors = ref<Record<string, string[]>>({})
+const successMessage = ref('')
 
 const filters = reactive<TaskFilters>({
   page: Number(route.query.page ?? 1),
@@ -60,10 +64,38 @@ async function applyFilters() {
 
   refresh()
 }
+
+async function createTask(data: CreateTaskRequest) {
+  creating.value = true
+  validationErrors.value = {}
+
+  try {
+    await taskService.create(data)
+    await refresh()
+    successMessage.value = 'Задача успешно создана!'
+  } catch (error: any) {
+    if (error.status === 422) {
+      validationErrors.value = error.data.errors ?? {}
+      return
+    }
+
+    alert('Не удалось создать задачу')
+  } finally {
+    creating.value = false
+  }
+}
 </script>
 
 <template>
   <div>
+    <p v-if="successMessage">
+      {{ successMessage }}
+    </p>
+
+    <TasksForm
+      @save="createTask"
+    />
+
     <h1>Задачи</h1>
 
     <input

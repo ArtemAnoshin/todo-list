@@ -1,3 +1,5 @@
+import type { TaskStatus } from './task-status'
+
 export interface Task {
   id: number
   user_id: number
@@ -30,3 +32,12 @@ export interface TaskFilters {
 
   sort_direction?: 'asc' | 'desc'
 }
+
+export interface CreateTaskRequest {
+  title: string
+  description: string
+  due_date: string | null
+  status: TaskStatus | null
+}
+
+export interface UpdateTaskRequest extends CreateTaskRequest {}
