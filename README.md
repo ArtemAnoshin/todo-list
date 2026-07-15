@@ -24,6 +24,8 @@ password1
 admin@example.com
 password
 
+## переименуйте .env.example в .env
+
 ## Фронтенд
 ```cd .\frontend\```
 ```npm install```
