@@ -154,7 +154,7 @@ watch(
       <div class="flex justify-end">
         <button
           :disabled="loading"
-          class="rounded-lg bg-blue-600 px-6 py-2 font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
+          class="rounded-lg bg-emerald-600 px-6 py-2 font-medium text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-emerald-300 cursor-pointer"
         >
           {{ loading ? 'Отправка...' : 'Отправить' }}
         </button>

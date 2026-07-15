@@ -14,7 +14,7 @@ const successMessage = ref('')
 const filters = reactive<TaskFilters>({
   page: Number(route.query.page ?? 1),
 
-  per_page: Number(route.query.per_page ?? 15),
+  per_page: Number(route.query.per_page ?? 5),
 
   search: String(route.query.search ?? ''),
 
@@ -76,7 +76,7 @@ async function applyFilters() {
 
       <NuxtLink
         to="/tasks/create"
-        class="rounded-lg bg-blue-600 px-4 py-2 font-medium text-white transition hover:bg-blue-700"
+        class="rounded-lg bg-emerald-600 px-4 py-2 font-medium text-white transition hover:bg-emerald-700"
       >
         + Добавить задачу
       </NuxtLink>
@@ -102,25 +102,44 @@ async function applyFilters() {
 
     <TasksTaskList
       :tasks="data.data"
+      @task-deleted="refresh"
     />
 
     <div v-if="data">
       Найдено задач: {{ data.total }}
     </div>
 
-    <div v-if="data && data.last_page > 1">
+    <div
+      v-if="data && data.last_page > 1"
+      class="flex items-center justify-between mt-8"
+    >
+      <!-- Кнопка "Назад" -->
       <button
+        :class="[
+          'px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500',
+          {
+            'opacity-50 cursor-not-allowed': filters.page === 1
+          }
+        ]"
         :disabled="filters.page === 1"
         @click="goToPage(filters.page! - 1)"
       >
         ← Назад
       </button>
 
-      <span>
+      <!-- Информация о страницах -->
+      <span class="text-sm text-gray-700">
         Страница {{ data.current_page }} из {{ data.last_page }}
       </span>
 
+      <!-- Кнопка "Вперед" -->
       <button
+        :class="[
+          'px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500',
+          {
+            'opacity-50 cursor-not-allowed': filters.page === data.last_page
+          }
+        ]"
         :disabled="filters.page === data.last_page"
         @click="goToPage(filters.page! + 1)"
       >

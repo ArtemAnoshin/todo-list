@@ -40,7 +40,7 @@ const emit = defineEmits<{
       </select>
 
       <button
-        class="rounded-lg bg-blue-600 px-5 py-2 font-medium text-white transition hover:bg-blue-700"
+        class="rounded-lg bg-emerald-600 px-5 py-2 font-medium text-white transition hover:bg-emerald-700"
         @click="emit('submit')"
       >
         Найти

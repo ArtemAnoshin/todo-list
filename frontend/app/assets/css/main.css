@@ -16,3 +16,8 @@
   --color-green-900: #0A5331;
   --color-green-950: #052E16;
 }
+
+body {
+  background: linear-gradient(rgba(26, 36, 32, .035) 1px, transparent 0), linear-gradient(90deg, rgba(26, 36, 32, .035) 1px, transparent 0), #f6f5f0;
+  background-size: 44px 44px, 44px 44px, auto;
+}
